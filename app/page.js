@@ -2,7 +2,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { firestore } from "@/firebase";
 import { collection, getDocs, query } from "firebase/firestore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // const item = [
 //   "tomato",
@@ -48,17 +48,17 @@ export default function Home() {
           display={"flex"}
           justifyContent={"center"}
           alignItems={"center"}
-        >
+        > 
           <Typography variant={"h2"} color={"#333"} textAlign={"center"}>
             Pantry Items
           </Typography>
         </Box>
         <Stack width="800px" height="300px" spacing={2} overflow={"auto"}>
-          {item.map((i) => (
+          {pantry.map((i) => (
             <Box
               key={i}
               width="100%"
-              height="300px"
+              minHeight="300px"
               display={"flex"}
               justifyContent={"center"}
               alignItems={"center"}
