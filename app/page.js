@@ -50,7 +50,7 @@ export default function Home() {
     const docs = await getDocs(snapshot);
     const pantryList = [];
     docs.forEach((doc) => {
-      pantryList.push({name: doc.id}, {count: doc.data()});
+      pantryList.push({name: doc.id, ...doc.data()});
     });
     console.log(pantryList);
     setPantry(pantryList);
@@ -66,13 +66,11 @@ export default function Home() {
     if (docSnap.exists()) {
       const {count} = docSnap.data()
       await setDoc(docRef, {count: count+1})
-      await updatePantrt()
-      return
     }
     else{
       await setDoc(docRef, { count: 1 });
-      await updatePantry();
     }
+    await updatePantry();
   };
 
   const removeItem = async (item) => {
@@ -149,28 +147,25 @@ export default function Home() {
           </Typography>
         </Box>
         <Stack width="800px" height="300px" spacing={2} overflow={"auto"}>
-          {pantry.map((name, count) => (
+          {pantry.map((item) => (
             <Box
-              key={name}
+              key={item.name}
               width="100%"
               minHeight="150px"
               display={"flex"}
               justifyContent={"space-between"}
-              padding = {2 }
+              padding={2}
               alignItems={"center"}
               bgcolor={"#f0f0f0"}
-              paddingtonX = {5}
+              paddingX={5}
             >
               <Typography variant={"h3"} color={"#333"} textAlign={"center"}>
-                {
-                  // Capitalize first letter
-                  name.charAt(0).toUpperCase() + name.slice(1)
-                }
+                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
               </Typography>
-              <Typography variant = {'h3'} color = {'#333'} textAlign = {'center'}>
-                Quantity: {count}
+              <Typography variant={"h3"} color={"#333"} textAlign={"center"}>
+                Quantity: {item.count}
               </Typography>
-              <Button variant="contained" onClick={() => removeItem(name)}>
+              <Button variant="contained" onClick={() => removeItem(item.name)}>
                 Remove
               </Button>
             </Box>
